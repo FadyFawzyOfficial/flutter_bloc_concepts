@@ -34,6 +34,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  # Flutter Widgets that make it easy to implement the BLoC (Business Logic Component) design pattern.
+  # Built to be used with the bloc state management package.
+  flutter_bloc: ^7.3.0
 
 dev_dependencies:
   flutter_test:
