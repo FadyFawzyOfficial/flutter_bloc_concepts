@@ -58,9 +58,43 @@ class _MyHomePageState extends State<MyHomePage> {
             //? How do we receive the new state inside the UI?
             //? How do we rebuild the specific Text widget which prints out the
             //? counter value (counterValue)?
-            Text(
-              'COUNTER VALUE',
-              style: Theme.of(context).textTheme.headline4,
+            //* The counter value of the app should be printed right inside this
+            //* Text widget.
+            //* All we have to do is to wrap this specific Text widget into BlocBuilder.
+            BlocBuilder<CounterCubit, CounterState>(
+              // Now, Into the builder function, for every new emitted counter state
+              // (CounterState), the Text widget will show a new value.
+              // The value can be accessed by calling 'state.counterValue'.
+              builder: (context, state) {
+                // I can check whether the state's counterValue is negative
+                // and print a negative text widget.
+                if (state.counterValue < 0) {
+                  return Text(
+                    'BRR, NEGATIVE ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+                // I can check if the counterValue is even and print YAY
+                else if (state.counterValue % 2 == 0) {
+                  return Text(
+                    'YAAY ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+                // Or I can check if the counterValue is equal to five and print
+                // HMM, NUMBER 5
+                else if (state.counterValue == 5) {
+                  return Text(
+                    'HMM, NUMBER 5 ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else {
+                  return Text(
+                    '${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+              },
             ),
             const SizedBox(height: 24),
             // The 2 FloatingActionButton which are supposed to increment or
