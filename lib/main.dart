@@ -66,10 +66,34 @@ class _MyHomePageState extends State<MyHomePage> {
               // (CounterState), the Text widget will show a new value.
               // The value can be accessed by calling 'state.counterValue'.
               builder: (context, state) {
-                return Text(
-                  '${state.counterValue}',
-                  style: Theme.of(context).textTheme.headline4,
-                );
+                // I can check whether the state's counterValue is negative
+                // and print a negative text widget.
+                if (state.counterValue < 0) {
+                  return Text(
+                    'BRR, NEGATIVE ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+                // I can check if the counterValue is even and print YAY
+                else if (state.counterValue % 2 == 0) {
+                  return Text(
+                    'YAAY ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+                // Or I can check if the counterValue is equal to five and print
+                // HMM, NUMBER 5
+                else if (state.counterValue == 5) {
+                  return Text(
+                    'HMM, NUMBER 5 ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else {
+                  return Text(
+                    '${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
               },
             ),
             const SizedBox(height: 24),
