@@ -10,11 +10,17 @@ class CounterState {
   // Since the class must have the counter value, let's write it down and also
   // create a constructor for it.
   int counterValue;
+  //* So all we have to do is to add another boolean attribute to the CounterState
+  //* class called wasIncremented.
+  //* This field will be true when we press the plus button and
+  //* false when we press the minus button
+  bool? wasIncremented;
 
   // The application must have a vaild counter value at all times, so every time
   // will have a new state emerging from the cubilt.
   // The counter value must be a required attribute.
   CounterState({
     required this.counterValue,
+    this.wasIncremented,
   });
 }
