@@ -46,6 +46,27 @@ void main() {
       // counterCubit.state & the expected value should be CounterState()
       // which has a counterValue equal to 0;
       //! If we run this test, we will surprisingly receive a complete failure
+      //? Remember that the application worked perfectly when we manually tested
+      //? it. How come that this test fails then?
+      //* Well, Since it tells us that both the expected and actual outputs
+      //* are an <Instance of <CounterState>>
+      //! Expected: <Instance of <CounterState>>
+      //!   Actual: <Instance of <CounterState>>
+      //* and we know that both sould have a zero value inside.
+      //* That means that the instances are still differnet somehow. (Dart!!)
+      //! CounterState stateA = CounterState();
+      //! CounterState stateB = CounterState();
+      //!             stateA != stateB
+      //* You can override this behavior simple by using a really popular
+      //* library you may have already heared about: Equatable Library.
+      //* Equatable is just a simple tool which override the equal operator
+      //* and the hash code for every class that extends it.
+      //* It has tricking Dart into comparing the instance by value rather than
+      //* by where they're placed in the memory.
+      //! Now after adding Equatable dependency and make CounterState class
+      //! extends it (Equatable) & override the props for attributes to compare.
+      //! If you run the test, the test should finally pass since our expected
+      //! and actaul CounterState objects had the same counterValue = 0.
       expect(counterCubit.state, CounterState(counterValue: 0));
     });
 

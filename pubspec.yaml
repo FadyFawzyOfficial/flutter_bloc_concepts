@@ -43,6 +43,8 @@ dependencies:
   test: ^1.17.0
   # A testing library which makes it easy to test blocs. Built to be used with the bloc state management package.
   bloc_test: ^8.5.0
+  # Being able to compare objects in Dart often involves having to override the '==' operator as well as hashCode.
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
