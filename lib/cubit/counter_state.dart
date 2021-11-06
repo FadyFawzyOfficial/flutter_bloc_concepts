@@ -6,7 +6,9 @@ part of 'counter_cubit.dart';
 
 // This class will be the blueprint for all possible states which will be emitted
 // by the Cubit.
-class CounterState {
+//* After adding the Equtable package to pubspec.yaml file.
+//* We need to extend the CounerState class with it.
+class CounterState extends Equatable {
   // Since the class must have the counter value, let's write it down and also
   // create a constructor for it.
   int counterValue;
@@ -23,4 +25,12 @@ class CounterState {
     required this.counterValue,
     this.wasIncremented,
   });
+
+  // We need to override the props of the equatable class.
+  //* The props are just a way of indicating equatable, which are the fields in
+  //* our class that we want to be compared while applying the equal operator.
+  //* So we are goint to pass both the counterValue & wasIncremented attribute
+  //* inside the props list
+  @override
+  List<Object?> get props => [counterValue, wasIncremented];
 }
