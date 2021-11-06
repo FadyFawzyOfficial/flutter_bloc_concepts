@@ -1,3 +1,4 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bloc_concepts/cubit/counter_cubit.dart';
 
@@ -69,6 +70,44 @@ void main() {
       //! and actaul CounterState objects had the same counterValue = 0.
       expect(counterCubit.state, CounterState(counterValue: 0));
     });
+
+    // Now it's time for us to test out the functionality of the increment and
+    // decrement functions from inside our CubitCounter features, because these
+    // are the most important.
+    //* For this we will use the blocTest function from inside the bloc_test
+    //* dependency, will use this
+    //! because we need to test the output as a response to the increment or
+    //! decrement functions
+    //* So, firstly we need to discribe it properly, the cubit should emit a
+    //* CounterState(counterValue: 1, wasIncremented: true) when cubit.increment()
+    //* function is called.
+    //* To do this we use the trial parameters of build, act and expect from
+    //* inside the blocTest function.
+    blocTest(
+      'the counterCubit should emit a CounterState(counterValue: 1, wasIncremented: true) when cubit.increment() function is called',
+      //* The build parameter: is a function that will return the current
+      //* instance of the CounterCubit in order to make it available to the
+      //* testing process.
+      build: () => counterCubit,
+      //* The act parameter: is a function that will the the cubit (or bloc) and
+      //* will return the action applied to it, which in our case is the
+      //* increment function.
+      act: (cubit) => (cubit as CounterCubit).increment(),
+      //* The expect parameter: is an iterable list which will verify if the
+      //* order of the state and the actual emitted state correspond with the
+      //* emitted ones and no other
+      //* Since the counterCubit emits only a single state, we will palce it
+      //* inside a list accordingly
+      expect: () => [CounterState(counterValue: 1, wasIncremented: true)],
+    );
+
+    // The same procedure applies also to the decrement function.
+    blocTest(
+      'the counterCubit should emit a CounterState(counterValue: -1, wasIncremented: false) when cubit.decrement() function is called',
+      build: () => counterCubit,
+      act: (cubit) => (cubit as CounterCubit).decrement(),
+      expect: () => [CounterState(counterValue: -1, wasIncremented: false)],
+    );
 
     //! 2nd:
     // On the other hand, the treadown function is a function that will called
