@@ -3,7 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cubit/counter_cubit.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  //* Now, whenever we will compare CounterState, Dart will compare them
+  //* attributes by attributes inorder to see whether they're equal or not
+  final CounterState counterStateA = CounterState(counterValue: 1);
+  final CounterState counterStateB = CounterState(counterValue: 1);
+  //! This should return 'true' now.
+  print(counterStateA == counterStateB);
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
