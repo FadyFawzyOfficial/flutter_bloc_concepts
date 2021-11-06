@@ -37,6 +37,12 @@ dependencies:
   # Flutter Widgets that make it easy to implement the BLoC (Business Logic Component) design pattern.
   # Built to be used with the bloc state management package.
   flutter_bloc: ^7.3.0
+  #* For Testing Purposes: we need to add both test & bloc_test dependencies to pubspec.yaml file
+  # test provides a standard way of writing and running tests in Dart.
+  # A full featured library for writing and running Dart tests across platforms.
+  test: ^1.17.0
+  # A testing library which makes it easy to test blocs. Built to be used with the bloc state management package.
+  bloc_test: ^8.5.0
 
 dev_dependencies:
   flutter_test:
