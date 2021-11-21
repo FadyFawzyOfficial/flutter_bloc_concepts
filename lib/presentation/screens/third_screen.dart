@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_concepts/presentation/screens/third_screen.dart';
 
 import '../../logic/cubit/counter_cubit.dart';
-import 'second_sreen.dart';
 
-class HomeScreen extends StatefulWidget {
-  // I have also modified the HomeScreen Class a little bit so that it will take
-  // a title and a color as parameters in order to make it stand out compared
-  // to the next screen we will create
-  const HomeScreen({
+class ThirdScreen extends StatefulWidget {
+  const ThirdScreen({
     Key? key,
     required this.title,
     required this.color,
@@ -19,10 +14,10 @@ class HomeScreen extends StatefulWidget {
   final Color color;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ThirdScreen> createState() => _ThirdScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ThirdScreenState extends State<ThirdScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
               },
-              // Now, Into the builder function, for every new emitted counter state
-              // (CounterState), the Text widget will show a new value.
+              // Now, Into the builder function, for every new emitted counter
+              // state (CounterState), the Text widget will show a new value.
               // The value can be accessed by calling 'state.counterValue'.
               builder: (context, state) {
                 // I can check whether the state's counterValue is negative
@@ -145,20 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ],
-            ),
-            const SizedBox(height: 24),
-            MaterialButton(
-              color: widget.color,
-              child: const Text('Go to the Second Screen'),
-              //! Named Routing
-              onPressed: () => Navigator.of(context).pushNamed('/second'),
-            ),
-            const SizedBox(height: 24),
-            MaterialButton(
-              color: widget.color,
-              child: const Text('Go to the Third Screen'),
-              //! Named Routing
-              onPressed: () => Navigator.of(context).pushNamed('/third'),
             ),
           ],
         ),
