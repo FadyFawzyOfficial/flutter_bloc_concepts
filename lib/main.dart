@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/cubit/counter_cubit.dart';
 import 'presentation/screens/home_screen.dart';
+import 'presentation/screens/second_sreen.dart';
+import 'presentation/screens/third_screen.dart';
 
 void main() {
   //* Now, whenever we will compare CounterState, Dart will compare them
@@ -33,19 +35,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      //! Anonumous Routing
-      // Anonumous Routing is what we have been doing so far in our CounterApp
-      // So by default: we provide only the name of the HomeScreen class to
-      // the home paremeter inside the MaterialApp
-      //* Currently we provide a CounterCubit locally to our HomeScreen,
-      //* therefore to all of its childern widgets.
-      home: BlocProvider<CounterCubit>(
-        create: (context) => CounterCubit(),
-        child: const HomeScreen(
-          title: 'Flutter Demo Home Page',
-          color: Colors.blueAccent,
-        ),
-      ),
+      //! Named Routing
+      // We will list all of our routes inside the parameter of our MaterialApp.
+      //* Any Application MUST HAVE a Default Home Route which will be pushed in
+      //* the first place when the application starts.
+      //* The Route Name for the Default Home Route MUST BE '/' since '/' is the
+      //* universal sign for home in programming.
+      routes: {
+        '/': (context) => const HomeScreen(
+              title: 'Home Screen',
+              color: Colors.blueAccent,
+            ),
+        '/second': (context) => const SecondScreen(
+              title: 'Second Screen',
+              color: Colors.redAccent,
+            ),
+        '/third': (context) => const ThirdScreen(
+              title: 'Third Screen',
+              color: Colors.greenAccent,
+            ),
+      },
     );
   }
 }
