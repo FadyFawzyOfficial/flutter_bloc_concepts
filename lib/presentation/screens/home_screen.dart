@@ -149,11 +149,39 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialButton(
               color: widget.color,
               child: const Text('Go to the Second Screen'),
+              //! Anonymous Routing
+              // Also, when we navigate it from the HomeScreen to the
+              // SecondScreen, we used the MaterialPageRoute without having to
+              // provide a name.
+              //* Unfortunalety, due to the fact that the second screen has a
+              //* different BuildContext, the BlocProvider isn't able to continue
+              //* providing the CounterCubit instance to the SecondScreen, thus
+              //* making the app crash.
+              //* So there is a working instance of the CounterCubit available in
+              //* the entire HomeScreen widget tree.
+              //? How can we provide this working instance up next to the entire
+              //? widget tree of the SecondScreen?
+              //! The answer is by using BlocProvider.value(value: existingBloc);
+              //* takes an existing instance of a bloc/cubit and provide it
+              //* forward to its 'child' widget.
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const SecondScreen(
-                    title: 'Second Sreen',
-                    color: Colors.redAccent,
+                  //* So need to wrap the SecondScreen widget with the
+                  //* BlocProvider.value(value: existingBloc) widget so that
+                  //* we provide a CounterBloc instance further.
+                  //! The existing instance will be passed inside the 'value'
+                  //! parameter from the
+                  //! BlocProvider.value(value: existingInstance) Widget.
+                  builder: (_) => BlocProvider.value(
+                    //! 1st Note: Don't Provide a new instance of CounterCubit().
+                    //! 2nd Note: Take care of which context you will pass.
+                    //* We successfully provided the only instance CoutnerCubit
+                    //* to the SecondScreen Anonymous Route.
+                    value: BlocProvider.of<CounterCubit>(context),
+                    child: const SecondScreen(
+                      title: 'Second Sreen',
+                      color: Colors.redAccent,
+                    ),
                   ),
                 ),
               ),

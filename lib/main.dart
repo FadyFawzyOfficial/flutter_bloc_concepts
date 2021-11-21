@@ -33,6 +33,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
+      //! Anonumous Routing
+      // Anonumous Routing is what we have been doing so far in our CounterApp
+      // So by default: we provide only the name of the HomeScreen class to
+      // the home paremeter inside the MaterialApp
+      //* Currently we provide a CounterCubit locally to our HomeScreen,
+      //* therefore to all of its childern widgets.
       home: BlocProvider<CounterCubit>(
         create: (context) => CounterCubit(),
         child: const HomeScreen(
