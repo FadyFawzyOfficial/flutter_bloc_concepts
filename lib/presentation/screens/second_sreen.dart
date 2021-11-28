@@ -4,6 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubit/counter_cubit.dart';
 
 class SecondScreen extends StatefulWidget {
+  static const String name = '/second';
+
+  final String title;
+  final Color color;
+
   // I have also modified the HomeScreen Class a little bit so that it will take
   // a title and a color as parameters in order to make it stand out compared
   // to the next screen we will create
@@ -12,9 +17,6 @@ class SecondScreen extends StatefulWidget {
     required this.title,
     required this.color,
   }) : super(key: key);
-
-  final String title;
-  final Color color;
 
   @override
   State<SecondScreen> createState() => _SecondScreenState();

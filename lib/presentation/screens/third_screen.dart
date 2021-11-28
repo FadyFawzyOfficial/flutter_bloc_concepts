@@ -4,14 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubit/counter_cubit.dart';
 
 class ThirdScreen extends StatefulWidget {
+  static const String name = '/third';
+
+  final String title;
+  final Color color;
+
   const ThirdScreen({
     Key? key,
     required this.title,
     required this.color,
   }) : super(key: key);
-
-  final String title;
-  final Color color;
 
   @override
   State<ThirdScreen> createState() => _ThirdScreenState();
