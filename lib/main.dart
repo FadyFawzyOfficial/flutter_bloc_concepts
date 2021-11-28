@@ -30,4 +30,12 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
+
+  //* Finally, inside of the dispose function will close the counterCubitt
+  //* by calling appRouter.dispose().
+  @override
+  void dispose() {
+    _appRouter.dispose();
+    super.dispose();
+  }
 }
