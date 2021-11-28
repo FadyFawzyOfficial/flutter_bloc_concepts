@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_bloc_concepts/cubit/counter_cubit.dart';
+
+import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
 
 // So inside the test file we need to start by creating a main function.
 void main() {
