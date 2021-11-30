@@ -42,11 +42,19 @@ class CounterCubit extends Cubit<CounterState> {
   // set the counterValue to zero.
   CounterCubit({required this.internetCubit})
       : super(CounterState(counterValue: 0)) {
+    monitorInternetCubit();
+  }
+
+  //! Architecture Tip #2:
+  //! we can do the same with the counter cubitt this time we'll call it
+  //! monitorInternetCubit, since according to the states emitted by it will
+  //! increment or decrement our counter value.
+  StreamSubscription<InternetState> monitorInternetCubit() {
     //! 3rd
     //! will subscribe to it inside CounterCubit so that whenever a new
     //! Internet state is retrieved down the stream, we can do something
     //! in response.
-    internetStreamSubscription = internetCubit.listen((internetState) {
+    return internetCubit.listen((internetState) {
       //! 4th In our case, we need to check whether the received InternetState is
       //! a type of InterneConnected and the connection type is either wifi or
       //! mobile so that we can call either the increment or decrement functions

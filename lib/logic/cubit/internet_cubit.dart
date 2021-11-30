@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc_concepts/constants/enums.dart';
+
+import '../../constants/enums.dart';
 
 part 'internet_state.dart';
 
@@ -29,6 +30,14 @@ class InternetCubit extends Cubit<InternetState> {
   //! the constructor by subscribing to the onConnectivityChange stream and then
   //! by listening to it.
   InternetCubit({required this.connectivity}) : super(InternetLoading()) {
+    monitorInternetConnection();
+  }
+
+  //! Architecture Tip #2:
+  //! inside the InternetCubit, you can see that all we do in the constructor
+  //! can be extracted to a method We can call it monitorInternetConnection.
+  //! Since this is what the function actually does.
+  StreamSubscription<ConnectivityResult> monitorInternetConnection() {
     //! 5th
     //! So to recap, every time a new connection is noticed by the connectivity
     //! plus plugin this onConnectivityChange stream will send the
@@ -36,8 +45,7 @@ class InternetCubit extends Cubit<InternetState> {
     //! Currently, our InternetCubit is just listening to the connectivityResults
     //! emitted by the plugin, but we also need to do something in response to them.
     //! We need to meet new Internet states accordingly to what the connectivity result is.
-    connectivityStreamSubscription =
-        connectivity.onConnectivityChanged.listen((connectivityResult) {
+    return connectivity.onConnectivityChanged.listen((connectivityResult) {
       //! 6th
       //! So every time a connectivityResult is received down the stream
       //! will verify if it's of type connectivity.wifi, mobile or not,
