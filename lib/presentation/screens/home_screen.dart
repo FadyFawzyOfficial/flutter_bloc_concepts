@@ -78,9 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 return const CircularProgressIndicator();
               },
             ),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             //* BlocConsumer is a widget that combines both BlocListener &
             //* BlocConsumer into a single widget.
             // So instead of writing BlocListener on top of BlocBuilder as we did

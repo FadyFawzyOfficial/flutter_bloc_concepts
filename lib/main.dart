@@ -6,20 +6,32 @@ import 'package:flutter_bloc_concepts/logic/cubit/internet_cubit.dart';
 import 'logic/cubit/counter_cubit.dart';
 import 'presentation/router/app_router.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      MyApp(
+        appRouter: AppRouter(),
+        connectivity: Connectivity(),
+      ),
+    );
 
 //* MyApp class does need to be a stateful widget anymore,
 //* so we convert it back to a statelets widget.
 class MyApp extends StatelessWidget {
-  //! Generated Routing
-  //* We need to create an instance of our AppRouter Class to pass the
-  //* onGenerateRoute its function.
-  final AppRouter _appRouter = AppRouter();
-  //* We know that our connectivity plugin doesn't depend on anything,
-  //* so we'll create it firstly.
-  final Connectivity _connectivity = Connectivity();
+  //! Architecture Tip #2: (Good Practice)
+  //! When we want to create a Standalone instance which is an instance that
+  //! doesn't depend on anything is to create it at the top inside the main
+  //! function and then inject it into the app. In our case, within MyApp class.
+  //! This way, our dependent Cubits, Blocs or Repositories can use their
+  //! specific methods like BlocProvider, RepositoryProvider to create and also
+  //! inject themselves into the rest of the app accordingly while also having
+  //! access to the required dependencies.
+  final AppRouter appRouter;
+  final Connectivity connectivity;
 
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({
+    Key? key,
+    required this.appRouter,
+    required this.connectivity,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +52,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => InternetCubit(
-            connectivity: _connectivity,
+            connectivity: connectivity,
           ),
         ),
         BlocProvider<CounterCubit>(
@@ -57,7 +69,7 @@ class MyApp extends StatelessWidget {
         //* onGererateRoute function inside our AppRouter Class.
         //! Pay attention because we need to pass the function as an argument and
         //! not as a result of it.
-        onGenerateRoute: _appRouter.onGenerateRoute,
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }
