@@ -1,28 +1,64 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/cubit/counter_cubit.dart';
+import 'logic/cubit/internet_cubit.dart';
 import 'presentation/router/app_router.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      MyApp(
+        appRouter: AppRouter(),
+        connectivity: Connectivity(),
+      ),
+    );
 
 //* MyApp class does need to be a stateful widget anymore,
 //* so we convert it back to a statelets widget.
 class MyApp extends StatelessWidget {
-  //! Generated Routing
-  //* We need to create an instance of our AppRouter Class to pass the
-  //* onGenerateRoute its function.
-  final AppRouter _appRouter = AppRouter();
+  //! Architecture Tip #2: (Good Practice)
+  //! When we want to create a Standalone instance which is an instance that
+  //! doesn't depend on anything is to create it at the top inside the main
+  //! function and then inject it into the app. In our case, within MyApp class.
+  //! This way, our dependent Cubits, Blocs or Repositories can use their
+  //! specific methods like BlocProvider, RepositoryProvider to create and also
+  //! inject themselves into the rest of the app accordingly while also having
+  //! access to the required dependencies.
+  final AppRouter appRouter;
+  final Connectivity connectivity;
 
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({
+    Key? key,
+    required this.appRouter,
+    required this.connectivity,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //! All we need to do now is to wrap the MaterialApp inside the BlocProvider
     //! and create the only instance of the CounterCubit to be provided globally
     //! to all of our screens.
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
+
+    //! Bloc Communication
+    //* All we need to do now is to provide both our InternetCubit and
+    //* CounterCubit globally to our pages. But the reality is that the
+    //* CounterCubit is dependent on the InternetCubit and the InternetCubit
+    //* is also dependent on the connectivity plus plugin.
+    //? So what do we do in this case?
+    //! What I usually do is instantiate the objects by following the order from
+    //! the least dependent one to the most dependent one.
+    //* Now, all we need to do is to adapt to our needs.
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => InternetCubit(
+            connectivity: connectivity,
+          ),
+        ),
+        BlocProvider<CounterCubit>(
+          create: (context) => CounterCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue),
@@ -31,7 +67,7 @@ class MyApp extends StatelessWidget {
         //* onGererateRoute function inside our AppRouter Class.
         //! Pay attention because we need to pass the function as an argument and
         //! not as a result of it.
-        onGenerateRoute: _appRouter.onGenerateRoute,
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }

@@ -11,6 +11,17 @@ part 'counter_state.dart';
 // increment or decrement the value.
 //* So all we have to do is to add another boolean attribute to the CounterState class
 class CounterCubit extends Cubit<CounterState> {
+  //! Bloc Communication
+  //! Bloc Listener
+  //! So definitely the most important advantage of BlocListener over
+  //! StreamSubscription is the fact that we don't need to create or manage
+  //! the StreamSubscriptions manually.
+  //! So that's we refactor the code and delete the subscriptions from inside
+  //! the CounterCubit we don't even need the InternetCubit dependancy anymore
+  //! since we'll just listen to it by using BlocListener inside the widget tree.
+  //! So the CounterCubit class will actually be having just its plain
+  //! functionality in there.
+
   // 1st: We need to set the initial state of the CounterCubit.
   // What the initial State is?  Well, it's going to be a state.
   // So we will select the CounterState class and we need to pass
