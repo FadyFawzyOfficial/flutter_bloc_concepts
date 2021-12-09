@@ -36,7 +36,7 @@ class HomeScreen extends StatefulWidget {
 //! so they're available everywhere inside the app.
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext homeScreenContext) {
     //! I like to wrap the top of the widget tree of the page with the
     //! BlocListener so that it looks more organized.
     //* Remember that BlocListener is different to BlocBuilder.
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //! Now, if we save and run the project, you will see that the application
     //! has exactly the same functionality as with the StreamSubscription Method.
     return BlocListener<InternetCubit, InternetState>(
-      listener: (context, state) {
+      listener: (internetCubitListenerContext, state) {
         if (state is InternetConnected &&
             state.connectiionType == ConnectiionType.Wifi) {
           BlocProvider.of<CounterCubit>(context).increment();
@@ -73,12 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BlocBuilder<InternetCubit, InternetState>(
-                builder: (context, state) {
+                builder: (internetCubitBuilderContext, state) {
                   if (state is InternetConnected &&
                       state.connectiionType == ConnectiionType.Wifi) {
                     return Text(
                       'Wi-Fi',
-                      style: Theme.of(context)
+                      style: Theme.of(internetCubitBuilderContext)
                           .textTheme
                           .headline3!
                           .copyWith(color: Colors.green),
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       state.connectiionType == ConnectiionType.Mobile) {
                     return Text(
                       'Mobile',
-                      style: Theme.of(context)
+                      style: Theme.of(internetCubitBuilderContext)
                           .textTheme
                           .headline3!
                           .copyWith(color: Colors.red),
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (state is InternetDisconnected) {
                     return Text(
                       'Disconnected',
-                      style: Theme.of(context)
+                      style: Theme.of(internetCubitBuilderContext)
                           .textTheme
                           .headline3!
                           .copyWith(color: Colors.grey),
@@ -112,20 +112,20 @@ class _HomeScreenState extends State<HomeScreen> {
               //* The code is now more readable and easier to maintain and the
               //* application works prefect.
               BlocConsumer<CounterCubit, CounterState>(
-                listener: (context, state) {
+                listener: (counterCubitListenerContext, state) {
                   //* Based on our state.wasIncremented attribute, we will display a
                   //* SnackBar accordingly to whether the counter value of our
                   //* Counter State was incremented (state.wasIncremented == true)
                   //* or decremented (state.wasIncremented == false).
                   if (state.wasIncremented!) {
-                    Scaffold.of(context).showSnackBar(
+                    Scaffold.of(counterCubitListenerContext).showSnackBar(
                       const SnackBar(
                         content: Text('Incremented'),
                         duration: Duration(microseconds: 500),
                       ),
                     );
                   } else if (!state.wasIncremented!) {
-                    Scaffold.of(context).showSnackBar(
+                    Scaffold.of(counterCubitListenerContext).showSnackBar(
                       const SnackBar(
                         content: Text('Decremented'),
                         duration: Duration(microseconds: 500),
@@ -136,20 +136,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Now, Into the builder function, for every new emitted counter state
                 // (CounterState), the Text widget will show a new value.
                 // The value can be accessed by calling 'state.counterValue'.
-                builder: (context, state) {
+                builder: (counterCubitBuilderContext, state) {
                   // I can check whether the state's counterValue is negative
                   // and print a negative text widget.
                   if (state.counterValue < 0) {
                     return Text(
                       'BRR, NEGATIVE ${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(counterCubitBuilderContext)
+                          .textTheme
+                          .headline4,
                     );
                   }
                   // I can check if the counterValue is even and print YAY
                   else if (state.counterValue % 2 == 0) {
                     return Text(
                       'YAAY ${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(counterCubitBuilderContext)
+                          .textTheme
+                          .headline4,
                     );
                   }
                   // Or I can check if the counterValue is equal to five and print
@@ -157,12 +161,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   else if (state.counterValue == 5) {
                     return Text(
                       'HMM, NUMBER 5 ${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(counterCubitBuilderContext)
+                          .textTheme
+                          .headline4,
                     );
                   } else {
                     return Text(
                       '${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(counterCubitBuilderContext)
+                          .textTheme
+                          .headline4,
                     );
                   }
                 },
@@ -216,18 +224,37 @@ class _HomeScreenState extends State<HomeScreen> {
               //     ],
               //   ),
               const SizedBox(height: 24),
-              MaterialButton(
-                color: Colors.redAccent,
-                child: const Text('Go to the Second Screen'),
-                //! Named Routing
-                onPressed: () => Navigator.of(context).pushNamed('/second'),
+              Builder(
+                builder: (builderContext) {
+                  return MaterialButton(
+                    color: Colors.redAccent,
+                    child: const Text('Go to the Second Screen'),
+                    //! Named Routing
+                    //* The passed context is the BuildContext of the MaterialButton
+                    //* Which is annonymous BuildContext which we can't access it.
+                    //* So we cannot mention it inside the navigator, that of line of code.
+                    //? But can we transform an anonymous context of a widget into a normal, accessible one?
+                    //! Yes, we can.
+                    //! by wraping the MaterialButton inside the Builder widget
+                    //! and specify the name of builderContext for the BuildContext
+                    //! instance in which the widget should be created.
+                    //* Now we can pass the builderContext to the navigator.of(builderContext).
+                    onPressed: () =>
+                        Navigator.of(builderContext).pushNamed('/second'),
+                  );
+                },
               ),
-              const SizedBox(height: 24),
+              // const SizedBox(height: 24),
               MaterialButton(
                 color: Colors.greenAccent,
                 child: const Text('Go to the Third Screen'),
                 //! Named Routing
-                onPressed: () => Navigator.of(context).pushNamed('/third'),
+                //* the 2nd scenario, when we want to start searching for the
+                //* Navigator widget from inside, the context of the HomeScreen.
+                //* We will need to pass the homeScreenContext instance to the
+                //* Navigator.of(homeScreenContext) line of code.
+                onPressed: () =>
+                    Navigator.of(homeScreenContext).pushNamed('/third'),
               ),
             ],
           ),
