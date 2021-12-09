@@ -33,8 +33,13 @@ class MyApp extends StatelessWidget {
     required this.connectivity,
   }) : super(key: key);
 
+  //! BuildContexts Concept
+  //* I rename them (BuildContext parameter) this way so that you will see
+  //* better that they are completely different. When you fully understand this,
+  //* you will find it easier to name all of them 'context' since you'll know
+  //* which 'context' goes where immediately.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myAppContext) {
     //! All we need to do now is to wrap the MaterialApp inside the BlocProvider
     //! and create the only instance of the CounterCubit to be provided globally
     //! to all of our screens.
@@ -51,14 +56,18 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => InternetCubit(
+          create: (internetCubitContext) => InternetCubit(
             connectivity: connectivity,
           ),
         ),
         BlocProvider<CounterCubit>(
-          create: (context) => CounterCubit(),
+          create: (counterCubitContext) => CounterCubit(),
         ),
       ],
+      //* So if you are seeing the MaterialApp here alone (Without BuildContext),
+      //* this doesn't mean it was built without any context.
+      //* It has an anonymous BuildContext, but it's still a BuildContext like
+      //* every other widget, and will be placed correctly inside the widget.
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue),
