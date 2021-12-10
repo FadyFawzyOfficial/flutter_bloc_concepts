@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //* Either by calling
                     BlocProvider.of<CounterCubit>(context).decrement();
                     //* or with in
-                    // context.bloc<CounterCubit>().decrement();
+                    // context.read<CounterCubit>().decrement();
                   },
                 ),
                 FloatingActionButton(
@@ -240,8 +240,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   tooltip: 'Increment',
                   heroTag: Text('${widget.title} #2'),
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).increment();
-                    // context.bloc<CounterCubit>().increment();
+                    //! context.read
+                    //* is a way to read/access a provided instance Bloc/Cubit
+                    //* indise the widget tree which won't rebuild the widget.
+                    //! Should be called only WHEN you need it, and only WHERE
+                    //! you need it.
+                    context.read<CounterCubit>().increment();
                   },
                 ),
               ],
