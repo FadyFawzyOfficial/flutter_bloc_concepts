@@ -147,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 24),
+            //! context.watch()
             //? In order to demonstrate How context.watch() works?
             //! We will have to create a Widget which will rebuild whenever at
             //! least one of these two Cubits emits new states.
@@ -175,6 +176,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 //! connection status (Wifi, Mobile or Disconnected)
                 return Text(
                   'Counter: ${counterState.counterValue} Internet: $internetStatus',
+                  style: Theme.of(context).textTheme.headline6,
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            //! context.select()
+            //* Again, to test this (context.select), all we have to do is to
+            //* wrap a Text widget inside a Builder widget to access its closer
+            //* BuildContext and then retrieve the new counter value inside the
+            //* variable while also updating and rebuilding the Builder widget.
+            //! Whenever the current counter value is different from the
+            //! previous counter value context.select returns the new value
+            //! and rebuilds the Builder widget.
+            Builder(
+              builder: (context) {
+                final counterValue = context.select(
+                    (CounterCubit counterCubit) =>
+                        counterCubit.state.counterValue);
+                return Text(
+                  'Counter: $counterValue',
                   style: Theme.of(context).textTheme.headline6,
                 );
               },
