@@ -1,6 +1,6 @@
 part of 'settings_cubit.dart';
 
-class SettingsState {
+class SettingsState extends Equatable {
   final bool appNotification;
   final bool emailNotification;
 
@@ -21,4 +21,10 @@ class SettingsState {
       emailNotification: emailNotification ?? this.emailNotification,
     );
   }
+
+  //! DON'T FORGET TO MENTION YOUR CORRECT PROPS VARIABLES!!
+  //! please pay attention while working with equatable package and with how
+  //! Dart compares objects in general.
+  @override
+  List<Object?> get props => [appNotification, emailNotification];
 }
