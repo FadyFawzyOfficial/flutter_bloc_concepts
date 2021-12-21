@@ -23,19 +23,8 @@ class SettingsState extends Equatable {
   }
 
   //! DON'T FORGET TO MENTION YOUR CORRECT PROPS VARIABLES!!
-  //! Another mistake users do use that whenever they use the equatable package,
-  //! they forget to place the values inside the props (method) variablea.
-  //! In our case, if we were to do that, we would have set our SettingsState
-  //! to extend equatable. Then let's say we forgot to write the appNotifications
-  //! variable inside the props. This means that DART will only compare 2
-  //! SettingsState by checking only the values of emailNotifications variables.
-  //! So, for example, if only the appNotification variable modifies,
-  //! Dart won't care about it and will still return 'true' while comparing the
-  //! two states.
-  //* So if we save & run this project and click the SwitchListTile for
-  //* the App Notification feature, it won't do anything since Dart thinks
-  //* it's the same state as before and won't emitted it.
-
+  //! please pay attention while working with equatable package and with how
+  //! Dart compares objects in general.
   @override
-  List<Object?> get props => [emailNotification];
+  List<Object?> get props => [appNotification, emailNotification];
 }
