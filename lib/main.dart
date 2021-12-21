@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/logic/cubit/settings_cubit.dart';
 
 import 'logic/cubit/counter_cubit.dart';
 import 'logic/cubit/internet_cubit.dart';
@@ -62,6 +63,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CounterCubit>(
           create: (counterCubitContext) => CounterCubit(),
+        ),
+        //! The SettingsCubit is provided globally above the MaterialApp Widget.
+        BlocProvider<SettingsCubit>(
+          create: (settingsCubitContext) => SettingsCubit(),
         ),
       ],
       //* So if you are seeing the MaterialApp here alone (Without BuildContext),
