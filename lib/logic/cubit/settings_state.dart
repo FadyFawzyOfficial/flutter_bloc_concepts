@@ -1,10 +1,10 @@
 part of 'settings_cubit.dart';
 
 class SettingsState {
-  final bool appNotification;
-  final bool emailNotification;
+  bool appNotification;
+  bool emailNotification;
 
-  const SettingsState({
+  SettingsState({
     required this.appNotification,
     required this.emailNotification,
   });
