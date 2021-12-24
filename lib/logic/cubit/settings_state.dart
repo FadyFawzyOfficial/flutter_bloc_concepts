@@ -27,4 +27,23 @@ class SettingsState extends Equatable {
   //! Dart compares objects in general.
   @override
   List<Object?> get props => [appNotification, emailNotification];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'appNotification': appNotification,
+      'emailNotification': emailNotification,
+    };
+  }
+
+  factory SettingsState.fromMap(Map<String, dynamic> map) {
+    return SettingsState(
+      appNotification: map['appNotification'] ?? false,
+      emailNotification: map['emailNotification'] ?? false,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory SettingsState.fromJson(String source) =>
+      SettingsState.fromMap(json.decode(source));
 }
