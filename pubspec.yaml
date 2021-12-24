@@ -49,6 +49,13 @@ dependencies:
   # This plugin allows Flutter apps to discover network connectivity and configure themselves accordingly.
   # It can distinguish between cellular vs WiFi connection. 
   connectivity_plus: ^2.0.3
+  # An extension to package:bloc which automatically persists and restores bloc and cubit states.
+  # Built to work with package:bloc.
+  hydrated_bloc: ^7.1.0
+  # We need this path_provider dependency because this will help Flutter retrieve the path for the App storage.
+  # Flutter plugin for getting commonly used locations on host platform file systems,
+  # such as the temp and app data directories.
+  path_provider: ^2.0.5
 
 dev_dependencies:
   flutter_test:
