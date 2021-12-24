@@ -46,4 +46,8 @@ class SettingsState extends Equatable {
 
   factory SettingsState.fromJson(String source) =>
       SettingsState.fromMap(json.decode(source));
+
+  @override
+  String toString() =>
+      'SettingsState(appNotification: $appNotification, emailNotification: $emailNotification)';
 }

@@ -84,6 +84,7 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
   // This function toJson is called for every emitted state by the (Counter) Cubit.
   @override
   Map<String, dynamic>? toJson(CounterState state) {
+    // addError(Exception("Couldn't write to Storage!"), StackTrace.current);
     //* So every time there is a new CounterState emitted with a new CounterValue
     //* we want to save its data to a map and then send it to HydratedBloc to
     //* Store it into the Local Storage.
