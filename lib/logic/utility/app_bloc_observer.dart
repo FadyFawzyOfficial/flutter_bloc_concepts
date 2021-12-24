@@ -1,8 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
+  //? If you've ever been curious on how and most importantly, when our Cubits
+  //? get created inside our app?
+  //! Now it's the time to learn one important key factor.
   @override
   void onCreate(BlocBase bloc) {
+    //* So let's print whatever Cubits gets created here and observe a really
+    //* important difference.
+    print(bloc);
     super.onCreate(bloc);
   }
 
