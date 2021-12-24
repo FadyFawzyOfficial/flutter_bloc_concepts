@@ -1,18 +1,40 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_concepts/logic/cubit/settings_cubit.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'logic/cubit/counter_cubit.dart';
 import 'logic/cubit/internet_cubit.dart';
+import 'logic/cubit/settings_cubit.dart';
 import 'presentation/router/app_router.dart';
 
-void main() => runApp(
-      MyApp(
-        appRouter: AppRouter(),
-        connectivity: Connectivity(),
-      ),
-    );
+//! Hydrated Bloc
+// Now we need to tell Hydrated Bloc what will be the accessable store area
+// required to store our data (CubitStates) on to, to do that:
+//* Indside a main function we need to setup its storage.
+void main() async {
+  //! This HydratedStorage.build function asynchronously creates a connection
+  //! form the hydrated bloc to the storage on where is going to store the data.
+  //* By default if we're not mention any storageDirectory will be stored on
+  //* temp storage which can be easily removed by the Operating System at any time.
+
+  //! This line of code will call native code to initialize the required storage
+  //! and link to HydratedBloc.
+  //* But in order to do that we need to initialize the Widgets Binding before
+  //* we start building our app, otherwise we wouldn't be able to call native code.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
+
+  runApp(
+    MyApp(
+      appRouter: AppRouter(),
+      connectivity: Connectivity(),
+    ),
+  );
+}
 
 //* MyApp class does need to be a stateful widget anymore,
 //* so we convert it back to a statelets widget.
