@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'counter_state.dart';
 
@@ -10,7 +13,11 @@ part 'counter_state.dart';
 // And, this is where we should tell the Flutter's UI to a state that we
 // increment or decrement the value.
 //* So all we have to do is to add another boolean attribute to the CounterState class
-class CounterCubit extends Cubit<CounterState> {
+
+//! Hydrated Bloc
+//* For Bloc/Cubit to become Hydrated that is for the setup Bloc or Cubit to save
+//* and retrieve from the storage, we need to use the HydratedMixin
+class CounterCubit extends Cubit<CounterState> with HydratedMixin {
   //! Bloc Communication
   //! Bloc Listener
   //! So definitely the most important advantage of BlocListener over
@@ -56,4 +63,30 @@ class CounterCubit extends Cubit<CounterState> {
           wasIncremented: false,
         ),
       );
+
+  //! These 2 methods are the pillars of Storing and Saving the States to
+  //! to the Storage while also being able to retrieving back when the app
+  //! is rebooted. and all we have to do is implement these functions.
+
+  //* CALLED EVERY TIME THE APP NEEDS STORED DATA
+  // This function 'fromJson' is called every time the app needs the local stored data.
+  @override
+  CounterState? fromJson(Map<String, dynamic> json) {
+    //* When we want the app to access the last saved data from the local storage
+    //* HydratedBloc will call fromJson function and retrieve the json which is
+    //* already converted into a map.
+    //! We need to return a new instance of the CounterState populated with the
+    //! data from that map.
+    return CounterState.fromMap(json);
+  }
+
+  //* CALLED FOR EVERY STATE
+  // This function toJson is called for every emitted state by the (Counter) Cubit.
+  @override
+  Map<String, dynamic>? toJson(CounterState state) {
+    //* So every time there is a new CounterState emitted with a new CounterValue
+    //* we want to save its data to a map and then send it to HydratedBloc to
+    //* Store it into the Local Storage.
+    return state.toMap();
+  }
 }
