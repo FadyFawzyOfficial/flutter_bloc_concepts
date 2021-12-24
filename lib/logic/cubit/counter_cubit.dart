@@ -89,4 +89,31 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
     //* Store it into the Local Storage.
     return state.toMap();
   }
+
+  //! Debugging Bloc
+  // This function takes a change instance of type counter state parameter.
+  // So every time a new state is emitted down the stream of states,
+  // this function will be called with a Change instance containing both the
+  // current and the next state.
+  // Obviously, this will help you track and debug the stream of emitted states,
+  // which is really important.
+  @override
+  void onChange(Change<CounterState> change) {
+    //* You may adopt two approaches.
+    //* You can either manually code what you want to be printed by accessing
+    //* both counts values of the current and previous state.
+    // print('current: ${change.currentState.counterValue} '
+    //     'next: ${change.nextState.counterValue}');
+    //* Or you can opt for a much faster and efficient approach.
+    //* You can simply print the past change instance as a parameter to the
+    //* onChange function.
+    //? But how does Dart know how to print an instance of the CounterState,
+    //? you may ask?
+    //! Well, at the moment it doesn't.
+    //! But if we go to the CounterState class, we can override the toString function,
+    //! which is mainly called when Dart wants a string representation of the
+    //! object instantiated from the CounterState class.
+    print(change);
+    super.onChange(change);
+  }
 }
