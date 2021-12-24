@@ -32,6 +32,9 @@ class InternetConnected extends InternetState {
   final ConnectiionType connectiionType;
 
   const InternetConnected({required this.connectiionType});
+
+  @override
+  String toString() => 'InternetConnected(connectiionType: $connectiionType)';
 }
 
 class InternetDisconnected extends InternetState {}

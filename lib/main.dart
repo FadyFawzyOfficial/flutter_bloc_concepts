@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/logic/utility/app_bloc_observer.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -27,6 +28,11 @@ void main() async {
 
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
+
+  //! BlocObserver
+  //* One thing that's left to be done now is to set up the Bloc.observer to
+  //* our newly created AppBlocObserver (Class) instance.
+  Bloc.observer = AppBlocObserver();
 
   runApp(
     MyApp(
