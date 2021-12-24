@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'settings_state.dart';
 
 // To manage Settings Screen, we have to create SettingsCubit which will emit
 // a single SettingsState each time 1 of the tiles are toggled.
-class SettingsCubit extends Cubit<SettingsState> {
+class SettingsCubit extends Cubit<SettingsState> with HydratedMixin {
   //! The initialState of the Cubit will be SettingsState with both of their
   //! field sets to false.
   SettingsCubit()
@@ -33,4 +36,11 @@ class SettingsCubit extends Cubit<SettingsState> {
   // This function will be triggered when the Email Notification Tile is pressed.
   void toggleEmailNotification(bool newValue) =>
       emit(state.copyWith(emailNotification: newValue));
+
+  @override
+  SettingsState? fromJson(Map<String, dynamic> json) =>
+      SettingsState.fromMap(json);
+
+  @override
+  Map<String, dynamic>? toJson(SettingsState state) => state.toMap();
 }
