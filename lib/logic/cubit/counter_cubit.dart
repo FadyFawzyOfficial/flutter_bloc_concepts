@@ -80,10 +80,23 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
     return CounterState.fromMap(json);
   }
 
+  //! Debugging
+  // If something goes wrong, then we may want to dispatch an exception with
+  // a specific error message. We can do that by using the addError function
+  // from inside any Cubit.
+  // This function takes into 2 arguments the exception you want to dispatch
+  // and the stack trace to where the program ran until it retrieved that exception.
+  // Let's add this function randomly inside the toJson method to simulate
+  // something that may go wrong with it.
+
   //* CALLED FOR EVERY STATE
   // This function toJson is called for every emitted state by the (Counter) Cubit.
   @override
   Map<String, dynamic>? toJson(CounterState state) {
+    //* So whenever that toJson method is called, that is whenever a new state
+    //* is being emitted by the Cubit, a new error will be added at the same time,
+    //! Check the comment of OnError method
+    addError(Exception("Couldn't write to Storage!"), StackTrace.current);
     //* So every time there is a new CounterState emitted with a new CounterValue
     //* we want to save its data to a map and then send it to HydratedBloc to
     //* Store it into the Local Storage.
@@ -115,5 +128,14 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
     //! object instantiated from the CounterState class.
     print(change);
     super.onChange(change);
+  }
+
+  //* Due to the fact that we override the onError method inside the Cubit,
+  //* the app will print the exception and it's StackTrace so that you'll
+  //* will be able to understand what went wrong with the application.
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    print('$error, $stackTrace');
+    super.onError(error, stackTrace);
   }
 }
